@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./App.module.css";
-import Person from "../components/Persons/Person/Person";
+import Cockpit from "../components/Cockpit/Cockpit";
+import Persons from "../components/Persons/Persons";
 
 class App extends Component {
   state = {
@@ -45,49 +46,27 @@ class App extends Component {
 
   render() {
     let persons = null;
-    let btnClass = [styles.button];
 
     if (this.state.showPersons) {
       persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return (
-                <Person key={person.id}
-                  click={() => this.deletePersonHandler(index)}
-                  name={person.name}
-                  age={person.age}
-                  changed={(event) => this.nameChangedHandler(event, person.id)}
-                />
-            );
-          })}
-        </div>
+        <Persons
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangedHandler}
+        />
       );
-      btnClass.push(styles.Red);
     }
 
-    const classes = [];
-    if (this.state.persons.length <= 2) {
-      classes.push("red");
-    }
-
-    if (this.state.persons.length <= 1) {
-      classes.push("bold");
-    }
     return (
       <div className={styles.App}>
-        <h1>Hi, I'm a React App</h1>
-        <p className={classes.join(" ")}>This is really working!</p>
-        <button
-          className={btnClass.join(" ")}
-          alt={this.state.showPersons.toString()}
-          onClick={this.togglePersonsHandler}
-        >
-          Toggle Persons
-        </button>
+        <Cockpit
+          persons={this.state.persons}
+          showPersons={this.state.showPersons}
+          clicked={this.togglePersonsHandler}
+        />
         {persons}
       </div>
     );
-    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
 }
 
