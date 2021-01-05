@@ -18,7 +18,7 @@ const Cockpit = (props) => {
       console.log("[Cockpit.js] cleanup work in 2nd useEffect");
     };
   });
-  
+
   const classes = [];
   let btnClass = [styles.button];
 
