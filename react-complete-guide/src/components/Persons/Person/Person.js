@@ -10,7 +10,7 @@ class Person extends Component {
     super();
     this.inputElementRef = React.createRef();
   }
-  
+
   componentDidMount() {
     // this.inputElement.focus();
     this.inputElementRef.current.focus();
@@ -20,7 +20,7 @@ class Person extends Component {
     console.log("[Person.js] rendering");
     return (
       <Aux>
-        {/* <div className={styles.Person}> */}
+        {this.props.isAuth ? <p>authenticated!</p> : <p>Please log in</p>}
         <p onClick={this.props.click}>
           I'm {this.props.name} and I'm {this.props.age} years old!
         </p>
