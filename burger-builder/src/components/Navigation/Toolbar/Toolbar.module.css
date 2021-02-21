@@ -19,4 +19,11 @@
 
 .Logo {
     height: 80%;
+    margin-top: 10px;
 }
+
+@media (max-width: 499px) {
+    .DesktopOnly {
+        display: none;
+    }
+  }
