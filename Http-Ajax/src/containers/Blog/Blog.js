@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import axios from "axios";
 
-import axios from '../../axios';
+import axios from "../../axios";
 
 import Post from "../../components/Post/Post";
 import FullPost from "../../components/FullPost/FullPost";
@@ -39,7 +39,7 @@ class Blog extends Component {
   };
 
   render() {
-    let posts = <p style={{ textAlign: 'center' }}>Something went wrong!</p>;
+    let posts = <p style={{ textAlign: "center" }}>Something went wrong!</p>;
 
     if (!this.state.error) {
       posts = this.state.posts.map((post) => {
@@ -55,7 +55,19 @@ class Blog extends Component {
     }
 
     return (
-      <div>
+      <div className="Blog">
+        <header>
+          <nav>
+            <ul>
+              <li>
+                <a href="/">Home</a>
+              </li>
+              <li>
+                <a href="/new-post">New Post</a>
+              </li>
+            </ul>
+          </nav>
+        </header>
         <section className="Posts">{posts}</section>
         <section>
           <FullPost id={this.state.selectedPostId} />
