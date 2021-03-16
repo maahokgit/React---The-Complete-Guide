@@ -17,15 +17,14 @@ import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 import * as burgerBuilderActions from "../../store/actions/index";
 
-
 class BurgerBuilder extends Component {
   state = {
     purchasing: false,
   };
 
-  // componentDidMount() {
-
-  // }
+  componentDidMount() {
+    this.props.onInitIngredients();
+  }
 
   updatePurchaseState = (ingredients) => {
     // const ingredients = {
@@ -67,7 +66,7 @@ class BurgerBuilder extends Component {
 
     let orderSummary = null;
 
-    let burger = this.state.error ? (
+    let burger = this.props.error ? (
       <p>Ingredients can't be loaded</p>
     ) : (
       <Spinner />
@@ -116,6 +115,7 @@ const mapStateToProps = (state) => {
   return {
     ings: state.ingredients,
     price: state.totalPrice,
+    error: state.error,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -124,6 +124,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(burgerBuilderActions.addIngredient(ingName)),
     onIngredientRemoved: (ingName) =>
       dispatch(burgerBuilderActions.removeIngredient(ingName)),
+    onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients()),
   };
 };
 
