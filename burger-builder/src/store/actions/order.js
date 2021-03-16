@@ -60,6 +60,7 @@ export const fetchOrdersFail = (error) => {
 export const fetchOrdersStart = () => {
   return {
     type: actionTypes.FETCH_ORDERS_START,
+    loading: true,
   };
 };
 
@@ -73,9 +74,11 @@ export const fetchOrders = () => {
         for (let key in res.data) {
           fetchedOrders.push({ ...res.data[key], id: key });
         }
+        console.log(fetchedOrders);
         dispatch(fetchOrdersSuccess(fetchedOrders));
       })
       .catch((err) => {
+        console.log(err)
         dispatch(fetchOrdersFail(err));
       });
   };
