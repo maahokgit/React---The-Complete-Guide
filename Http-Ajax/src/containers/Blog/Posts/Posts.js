@@ -8,6 +8,7 @@ import FullPost from '../FullPost/FullPost';
 import "./Posts.css";
 
 class Posts extends Component {
+  
   state = {
     posts: [],
   };
@@ -17,7 +18,8 @@ class Posts extends Component {
     axios
       .get("/posts")
       .then((response) => {
-        const posts = response.data.slice(0, 4);
+        const posts = response.data;
+        console.log(posts);
         const updatedPosts = posts.map((post) => {
           return {
             ...post,
