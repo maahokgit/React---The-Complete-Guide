@@ -1,6 +1,8 @@
 import axios from "axios";
 import * as actionTypes from "./actionTypes";
 
+const API_KEY = process.env.REACT_APP_API_KEY;
+
 export const authStart = () => {
   return {
     type: actionTypes.AUTH_START,
@@ -31,7 +33,7 @@ export const auth = (email, password) => {
     };
     axios
       .post(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBw3O9Dqh5ri7yBwUVYLBJ4aTLzcvy0QDY",
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key="+API_KEY,
         authData
       )
       .then((response) => {
