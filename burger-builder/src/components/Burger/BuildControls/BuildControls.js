@@ -9,7 +9,6 @@ const controls = [
   { label: "Meat", type: "meat" },
 ];
 const buildControls = (props) => (
-  
   <div className={Style.BuildControls}>
     <p>
       Current Price: <strong>${props.price.toFixed(2)}</strong>
@@ -23,8 +22,12 @@ const buildControls = (props) => (
         disabled={props.disabled[ctrl.type]}
       />
     ))}
-    <button className={Style.OrderButton} disabled={!props.purchaseable} onClick={props.ordered}>
-      ORDER NOW
+    <button
+      className={Style.OrderButton}
+      disabled={!props.purchaseable}
+      onClick={props.ordered}
+    >
+      {props.isAuth ? "ORDER NOW" : "Sign Up To Order" }
     </button>
   </div>
 );
