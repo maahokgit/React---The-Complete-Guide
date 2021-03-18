@@ -3,15 +3,15 @@ import Style from "./Toolbar.module.css";
 
 import Logo from "../../Logo/Logo";
 import NavigationItems from "../NavigationItems/NavigationItems";
-import DrawerToggle from '../SideDrawer/DrawerToggle/DrawerToggle'
+import DrawerToggle from "../SideDrawer/DrawerToggle/DrawerToggle";
 const toolbar = (props) => (
   <header className={Style.Toolbar}>
-    <DrawerToggle clicked={props.drawerToggleClicked}/>
+    <DrawerToggle clicked={props.drawerToggleClicked} />
     <div className={Style.Logo}>
       <Logo />
     </div>
     <nav className={Style.DesktopOnly}>
-      <NavigationItems />
+      <NavigationItems isAuthenticated={props.isAuth}/>
     </nav>
   </header>
 );
