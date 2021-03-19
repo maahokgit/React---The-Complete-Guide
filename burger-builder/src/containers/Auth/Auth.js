@@ -10,6 +10,8 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 
 import * as actions from "../../store/actions/index";
 
+import { updateObject } from "../../shared/utility";
+
 class Auth extends Component {
   state = {
     controls: {
@@ -69,18 +71,16 @@ class Auth extends Component {
   }
 
   inputChangedHandler = (event, controlName) => {
-    const updatedControls = {
-      ...this.state.controls,
-      [controlName]: {
-        ...this.state.controls[controlName],
+    const updatedControls = updateObject(this.state.controls, {
+      [controlName]: updateObject(this.state.controls[controlName], {
         value: event.target.value,
         valid: this.checkValidity(
           event.target.value,
           this.state.controls[controlName].validation
         ),
         touched: true,
-      },
-    };
+      }),
+    });
 
     this.setState({ controls: updatedControls });
   };
@@ -137,8 +137,8 @@ class Auth extends Component {
     let authRedirect = null;
     if (this.props.isAuthenticated && this.props.building) {
       authRedirect = <Redirect to="/checkout" />;
-    } else if (this.props.isAuthenticated ) {
-      authRedirect = <Redirect to={this.props.authRedirectPath} />
+    } else if (this.props.isAuthenticated) {
+      authRedirect = <Redirect to={this.props.authRedirectPath} />;
     }
 
     return (
