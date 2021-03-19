@@ -46,7 +46,7 @@ class Auth extends Component {
   };
 
   componentDidMount() {
-    if (this.props.burgerBuilder && this.props.authRedirectPath !== "/") {
+    if (!this.props.burgerBuilder && this.props.authRedirectPath !== "/") {
       this.props.onSetAuthRedirectPath();
     }
   }
@@ -135,8 +135,10 @@ class Auth extends Component {
     }
 
     let authRedirect = null;
-    if (this.props.isAuthenticated) {
-      authRedirect = <Redirect to={this.props.authRedirectPath} />;
+    if (this.props.isAuthenticated && this.props.building) {
+      authRedirect = <Redirect to="/checkout" />;
+    } else if (this.props.isAuthenticated ) {
+      authRedirect = <Redirect to={this.props.authRedirectPath} />
     }
 
     return (
