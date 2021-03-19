@@ -17,7 +17,7 @@ import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 import * as actions from "../../store/actions/index";
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
   state = {
     purchasing: false,
   };
@@ -27,9 +27,6 @@ class BurgerBuilder extends Component {
   }
 
   updatePurchaseState = (ingredients) => {
-    // const ingredients = {
-    //   ...this.state.ingredients,
-    // };
     const sum = Object.keys(ingredients)
       .map((igKey) => {
         return ingredients[igKey];
