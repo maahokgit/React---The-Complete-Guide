@@ -1,16 +1,25 @@
-import React from 'react';
+import React from "react";
 
 import { configure, shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 
-import NavigationItems from './NavigationItems';
-import NavigationItem from './NavigationItem/NavigationItem';
+import NavigationItems from "./NavigationItems";
+import NavigationItem from "./NavigationItem/NavigationItem";
 
-configure({adapter: new Adapter()});
+configure({ adapter: new Adapter() });
+let wrapper;
+
+beforeEach(() => {
+  wrapper = shallow(<NavigationItems />);
+});
 
 describe("<NavigationItems />", () => {
   it("should render two <NavigationItems /> elements if not authenticated", () => {
-      const wrapper = shallow(<NavigationItems />);
-      expect(wrapper.find(NavigationItem)).toHaveLength(2);
+    expect(wrapper.find(NavigationItem)).toHaveLength(2);
+  });
+
+  it("should render three <NavigationItems /> elements if  authenticated", () => {
+    wrapper.setProps({ isAuthenticated: true });
+    expect(wrapper.find(NavigationItem)).toHaveLength(3);
   });
 });
