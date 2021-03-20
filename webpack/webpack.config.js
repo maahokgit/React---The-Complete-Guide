@@ -1,7 +1,8 @@
 const path = require("path");
-const autoprefixer = require('autoprefixer');
+const autoprefixer = require("autoprefixer");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-module.export = {
+module.exports = {
   mode: "development",
   entry: "./src/index.js",
   output: {
@@ -9,7 +10,7 @@ module.export = {
     filename: "bundle.js",
     publicPath: "",
   },
-  devtool: "cheap-module-eval-source-map",
+  devtool: "eval-cheap-module-source-map",
   module: {
     rules: [
       {
@@ -29,11 +30,30 @@ module.export = {
               modules: { localIdentName: "[name]__[local]__[hash:base64:5]" },
             },
           },
-          { loader: "postcss-loader", options: {
-            ident:'postcss', plugins: () => [autoprefixer()]
-          } },
+          {
+            loader: "postcss-loader",
+            options: {
+              ident: "postcss",
+              plugins: () => [autoprefixer()],
+            },
+          },
         ],
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/,
+        loader: "url-loader",
+        options: {
+          limit: 8000,
+          name: "images/[name].[ext]"
+        }
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: __dirname + "/src/index.html",
+      filename: "index.html",
+      inject: "body",
+    }),
+  ],
 };
