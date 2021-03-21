@@ -7,7 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import thunk from "redux-thunk";
 
 import createSagaMiddleware from 'redux-saga';
-import { logoutSaga } from './store/sagas/auth';
+import { watchAuth } from './store/sagas/index';
 
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -31,7 +31,7 @@ const store = createStore(
   composeEnhancers(applyMiddleware(thunk, sagaMiddleware))
 );
 
-sagaMiddleware.run(logoutSaga);
+sagaMiddleware.run(watchAuth);
 
 const app = (
   <Provider store={store}>
