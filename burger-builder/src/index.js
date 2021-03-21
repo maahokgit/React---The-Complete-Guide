@@ -5,6 +5,10 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 import thunk from "redux-thunk";
+
+import createSagaMiddleware from 'redux-saga';
+import { logoutSaga } from './store/sagas/auth';
+
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
@@ -19,10 +23,15 @@ const rootReducer = combineReducers({
   order: orderReducer,
   auth: authReducer,
 });
+
+const sagaMiddleware = createSagaMiddleware();
+
 const store = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
+  composeEnhancers(applyMiddleware(thunk, sagaMiddleware))
 );
+
+sagaMiddleware.run(logoutSaga);
 
 const app = (
   <Provider store={store}>
