@@ -7,7 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import thunk from "redux-thunk";
 
 import createSagaMiddleware from "redux-saga";
-import { watchAuth, watchBurgerBuilder } from "./store/sagas/index";
+import { watchAuth, watchBurgerBuilder, watchOrder } from "./store/sagas/index";
 
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -36,6 +36,7 @@ const store = createStore(
 
 sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(watchBurgerBuilder);
+sagaMiddleware.run(watchOrder);
 
 const app = (
   <Provider store={store}>
