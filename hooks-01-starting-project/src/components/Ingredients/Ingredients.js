@@ -21,11 +21,18 @@ const Ingredients = () => {
             title: responseData[key].title,
             amount: responseData[key].amount,
           });
-          setUserIngredients(loadedIngredients);
         }
+        setUserIngredients(loadedIngredients);
       });
   }, []);
 
+  useEffect(() => {
+    console.log('RENDERING INGREDIENTS', userIngredients);
+  }, [userIngredients]);
+
+  const filteredIngredientsHandler = (filterIngredients) => {
+    setUserIngredients(filterIngredients);
+  };
   const addIngredientHandler = (ingredient) => {
     fetch(
       "https://react-hooks-maahokgit-default-rtdb.firebaseio.com/ingredients.json",
@@ -57,7 +64,7 @@ const Ingredients = () => {
       <IngredientForm onAddIngredient={addIngredientHandler} />
 
       <section>
-        <Search />
+        <Search onLoadIngredients={filteredIngredientsHandler} />
         <IngredientList
           ingredients={userIngredients}
           onRemoveItem={removeIngredientHandler}
