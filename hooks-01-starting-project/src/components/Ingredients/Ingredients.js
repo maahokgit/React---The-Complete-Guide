@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useReducer, useState } from "react";
+import React, { useCallback, useEffect, useReducer } from "react";
 
 import IngredientForm from "./IngredientForm";
 import IngredientList from "./IngredientList";
-import ErroModal from "../UI/ErrorModal";
+import ErrorModal from "../UI/ErrorModal";
 
 import Search from "./Search";
 
@@ -19,11 +19,29 @@ const ingredientReducer = (currentIngredients, action) => {
   }
 };
 
+const httpReducer = (curHttpState, action) => {
+  switch (action.type) {
+    case "SEND":
+      return { loading: true, error: null };
+    case "RESPONSE":
+      return { ...curHttpState, loading: false };
+    case "ERROR":
+      return { loading: false, error: action.errorMessage };
+    case "CLEAR":
+      return { ...curHttpState, error: null };
+    default:
+      throw new Error("Should not get there!");
+  }
+};
 const Ingredients = () => {
   const [userIngredients, dispatch] = useReducer(ingredientReducer, []);
+  const [httpState, dispatchHttp] = useReducer(httpReducer, {
+    loading: false,
+    error: null,
+  });
   // const [userIngredients, setUserIngredients] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState();
 
   useEffect(() => {
     console.log("RENDERING INGREDIENTS", userIngredients);
@@ -36,7 +54,8 @@ const Ingredients = () => {
   }, []);
 
   const addIngredientHandler = (ingredient) => {
-    setIsLoading(true);
+    // setIsLoading(true);
+    dispatchHttp({ type: "SEND" });
     fetch(
       "https://react-hooks-maahokgit-default-rtdb.firebaseio.com/ingredients.json",
       {
@@ -46,7 +65,8 @@ const Ingredients = () => {
       }
     )
       .then((response) => {
-        setIsLoading(false);
+        // setIsLoading(false);
+        dispatchHttp({ type: "RESPONSE" });
         return response.json();
       })
       .then((responseData) => {
@@ -55,14 +75,14 @@ const Ingredients = () => {
         //   { id: responseData.name, ...ingredient },
         // ]);
         dispatch({
-          type: 'ADD',
-          ingredient: { id: responseData.name, ...ingredient }
+          type: "ADD",
+          ingredient: { id: responseData.name, ...ingredient },
         });
       });
   };
 
   const removeIngredientHandler = (ingredientId) => {
-    setIsLoading(true);
+    dispatchHttp({ type: "SEND" });
     fetch(
       `https://react-hooks-maahokgit-default-rtdb.firebaseio.com/ingredients/${ingredientId}.json`,
       {
@@ -70,27 +90,28 @@ const Ingredients = () => {
       }
     )
       .then((response) => {
-        setIsLoading(false);
+        // setIsLoading(false);
+        dispatchHttp({ type: "RESPONSE" });
         // setUserIngredients((prevIngredients) =>
         //   prevIngredients.filter((ingredient) => ingredient.id !== ingredientId)
         // );
         dispatch({ type: "DELETE", id: ingredientId });
       })
       .catch((error) => {
-        setError("Something Went Wrong.");
+        // setError("Something Went Wrong.");
+        dispatchHttp({ type: "ERROR", errorMessage: "Something went wrong!" });
       });
   };
 
   const clearError = () => {
-    setError(null);
-    setIsLoading(false);
+    dispatchHttp({ type: "CLEAR" });
   };
   return (
     <div className="App">
-      {error && <ErroModal onClose={clearError}>{error}</ErroModal>}
+      {httpState.error && <ErrorModal onClose={clearError}>{httpState.error}</ErrorModal>}
       <IngredientForm
         onAddIngredient={addIngredientHandler}
-        loading={isLoading}
+        loading={httpState.loading}
       />
 
       <section>
