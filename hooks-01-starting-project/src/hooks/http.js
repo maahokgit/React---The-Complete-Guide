@@ -7,6 +7,7 @@ const initalState = {
   extra: null,
   identifier: null,
 };
+
 const httpReducer = (curHttpState, action) => {
   switch (action.type) {
     case "SEND":
