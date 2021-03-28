@@ -4,11 +4,11 @@ let globalState = {};
 let listeners = [];
 let actions = {};
 
-const useStore = () => {
+export const useStore = () => {
   const setState = useState(globalState)[1];
 
-  const dispatch = (actionIdentifier) => {
-    const newState = actions[actionIdentifier](globalState);
+  const dispatch = (actionIdentifier, payload) => {
+    const newState = actions[actionIdentifier](globalState, payload);
     globalState = { ...globalState, ...newState };
     for (const listener of listeners) {
       listener(globalState);
@@ -21,4 +21,13 @@ const useStore = () => {
       listeners = listeners.filter((li) => li !== setState);
     };
   }, [setState]);
+
+  return [globalState, dispatch];
+};
+
+export const initStore = (userActions, intialState) => {
+  if (intialState) {
+    globalState = { ...globalState, ...intialState };
+  }
+  actions = { ...actions, ...userActions };
 };
