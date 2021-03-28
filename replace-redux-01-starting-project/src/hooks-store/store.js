@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
 
 let globalState = {};
 let listeners = [];
@@ -17,14 +17,15 @@ export const useStore = (shouldListen = true) => {
   };
 
   useEffect(() => {
-    if (shouldListen) {
-      listeners.push(setState);
-    }
-
-    return () => {
-      if (shouldListen) {
-        listeners = listeners.filter(li => li !== setState);
+      if(shouldListen){
+           listeners.push(setState);
       }
+   
+    return () => {
+        if(shouldListen){
+            listeners = listeners.filter((li) => li !== setState);
+        }
+      
     };
   }, [setState, shouldListen]);
 
